@@ -1,0 +1,82 @@
+---
+stages:
+- name: Build Java Projects
+  inputs:
+  - type: git
+    branch: BUILD
+    service: ${REPO}
+  triggers:
+  - type: commit
+  jobs:
+  - name: Build Java
+    type: builder
+    artifact_dir: ''
+    build_type: shell
+    script: |
+        #!/bin/bash
+        echo "Run gradle build..."
+        export JAVA_HOME=~/java8
+        export PATH=$JAVA_HOME/bin:$PATH
+        /bin/bash build-microservice.sh
+        ls -al $PWD
+        echo "Gradle build complete."
+- name: Deploy CF App
+  inputs:
+  - type: job
+    stage: Build Java Projects
+    job: Build Java
+  triggers:
+  - type: stage
+  properties:
+  - name: BUILD_TARGET
+    value: ${BUILD_TARGET}
+    type: text
+  - name: SERVICE_DISCOVERY_UPS
+    value: ${SERVICE_DISCOVERY_UPS}
+    type: text
+  - name: DOMAIN
+    value: ${DOMAIN}
+    type: text
+  - name: APP_NAME
+    value: ${APP_NAME}
+    type: text
+  - name: DEPLOYMENT_SUFFIX
+    value: ${DEPLOYMENT_SUFFIX}
+    type: text
+  - name: APP_ROUTE
+    value: ${APP_NAME}-${DEPLOYMENT_SUFFIX}
+    type: text
+  - name: REGION
+    value: ${REGION}
+    type: text
+  - name: ORG
+    value: ${ORG}
+    type: text
+  - name: SPACE
+    value: ${SPACE}
+    type: text
+  jobs:
+  - name: Deploy cf app
+    type: deployer
+    target:
+      region_id: ${REGION}
+      organization: ${ORG}
+      space: ${SPACE}
+      application: ${APP_NAME}
+    script: |-
+       #!/bin/bash
+       cf push "${CF_APP}" -p ${BUILD_TARGET} -d ${DOMAIN} -n ${APP_ROUTE}
+  - name: Deploy CUPS
+    type: deployer
+    target:
+      region_id: ${REGION}
+      organization: ${ORG}
+      space: ${SPACE}
+    script: |-
+      #!/bin/bash
+
+      if [ -z "$(cf services | grep ${SERVICE_DISCOVERY_UPS})" ]; then
+        cf create-user-provided-service ${SERVICE_DISCOVERY_UPS} -p "{\"uri\": \"http://${APP_ROUTE}.${DOMAIN}/eureka/\"}"
+      else
+        cf update-user-provided-service ${SERVICE_DISCOVERY_UPS} -p "{\"uri\": \"http://${APP_ROUTE}.${DOMAIN}/eureka/\"}";
+      fi
