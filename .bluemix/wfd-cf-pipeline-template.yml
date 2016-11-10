@@ -58,6 +58,9 @@ stages:
   - name: SPACE
     value: ${SPACE}
     type: text
+  - name: CREATE_ROUTE
+    value: ${CREATE_ROUTE}
+    type: text
   jobs:
   - name: Deploy cf app
     type: deployer
@@ -68,11 +71,12 @@ stages:
       application: ${APP_NAME}
     script: |
       #!/bin/bash
-      cf push ${CF_APP} -p ${BUILD_TARGET} -d ${DOMAIN} -n ${APP_ROUTE} --no-start
-
+      if [ -z "$CREATE_ROUTE" ]; then
+        cf push ${CF_APP} -p ${BUILD_TARGET} -d ${DOMAIN} -n ${APP_ROUTE} --no-start
+      else
+        cf push ${CF_APP} -p ${BUILD_TARGET} --no-route --no-start
+      fi
       cf set-env ${CF_APP} SPRING_PROFILES_ACTIVE cloud
-
       cf bind-service ${CF_APP} ${SERVICE_DISCOVERY_UPS}
       cf bind-service ${CF_APP} ${CONFIG_SERVER_UPS}
-
       cf start ${CF_APP}

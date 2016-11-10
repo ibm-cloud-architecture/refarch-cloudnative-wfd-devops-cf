@@ -138,6 +138,7 @@ pipeline-wfd-appetizer-cf:
        DEPLOYMENT_SUFFIX: "toolchain"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
+       CREATE_ROUTE: null
       execute: false
     services: ["git-wfd-appetizer"]
   hidden: [form, description]
@@ -162,6 +163,7 @@ pipeline-wfd-entree-cf:
        DEPLOYMENT_SUFFIX: "toolchain"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
+       CREATE_ROUTE: null
       execute: false
     services: ["git-wfd-entree"]
   hidden: [form, description]
@@ -186,6 +188,7 @@ pipeline-wfd-dessert-cf:
        DEPLOYMENT_SUFFIX: "toolchain"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
+       CREATE_ROUTE: null
       execute: false
     services: ["git-wfd-dessert"]
   hidden: [form, description]
@@ -210,6 +213,7 @@ pipeline-wfd-zuul-cf:
        DEPLOYMENT_SUFFIX: "toolchain"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
+       CREATE_ROUTE: null
       execute: false
     services: ["git-wfd-zuul"]
   hidden: [form, description]
@@ -234,6 +238,7 @@ pipeline-wfd-menu-cf:
        DEPLOYMENT_SUFFIX: "toolchain"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
+       CREATE_ROUTE: null
       execute: false
     services: ["git-wfd-menu"]
   hidden: [form, description]
@@ -258,6 +263,7 @@ pipeline-wfd-menu-ui-cf:
        DEPLOYMENT_SUFFIX: "toolchain"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
+       CREATE_ROUTE: "yes"
       execute: false
     services: ["git-wfd-menu-ui"]
   hidden: [form, description]
