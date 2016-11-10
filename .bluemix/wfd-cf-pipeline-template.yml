@@ -72,9 +72,9 @@ stages:
     script: |
       #!/bin/bash
       if [ -z "$CREATE_ROUTE" ]; then
-        cf push ${CF_APP} -p ${BUILD_TARGET} -d ${DOMAIN} -n ${APP_ROUTE} --no-start
-      else
         cf push ${CF_APP} -p ${BUILD_TARGET} --no-route --no-start
+      else
+        cf push ${CF_APP} -p ${BUILD_TARGET} -d ${DOMAIN} -n ${APP_ROUTE} --no-start
       fi
       cf set-env ${CF_APP} SPRING_PROFILES_ACTIVE cloud
       cf bind-service ${CF_APP} ${SERVICE_DISCOVERY_UPS}
