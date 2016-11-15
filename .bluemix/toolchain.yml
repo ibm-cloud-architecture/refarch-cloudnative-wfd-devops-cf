@@ -121,23 +121,29 @@ pipeline-wfd-config-cf:
 pipeline-wfd-appetizer-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-appetizer-cf"
+    name: "wfd-appetizer-cf-AD"
     ui-pipeline: true
     configuration:
       content: $file(wfd-cf-pipeline-template.yml)
       env:
        # Build java stage env variables
        REPO: "git-wfd-appetizer"
-       # Build container stage env variables
+       BRANCH: "master"
+       # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/wfd-appetizer-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
        ORG: "{{deploy.parameters.deploy-org}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
-       DOMAIN: "{{deploy.parameters.route-domain}}"
+       ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
+       TEST_RESULT_FOR_AD: "1"
+       GROUP_SIZE: "1"
+       CONCURRENT_VERSIONS: "1"
+       DEBUG: null
        APP_NAME: "{{pipeline-wfd-appetizer-cf.parameters.name}}"
-       DEPLOYMENT_SUFFIX: "toolchain"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
+       RAMPDOWN_DURATION: "1s"
+       RAMPUP_DURATION: "1s"
       execute: false
     services: ["git-wfd-appetizer"]
   hidden: [form, description]
@@ -145,23 +151,29 @@ pipeline-wfd-appetizer-cf:
 pipeline-wfd-entree-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-entree-cf"
+    name: "wfd-entree-cf-AD"
     ui-pipeline: true
     configuration:
       content: $file(wfd-cf-pipeline-template.yml)
       env:
        # Build java stage env variables
        REPO: "git-wfd-entree"
-       # Build container stage env variables
+       BRANCH: "master"
+       # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/wfd-entree-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
        ORG: "{{deploy.parameters.deploy-org}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
-       DOMAIN: "{{deploy.parameters.route-domain}}"
+       ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
+       TEST_RESULT_FOR_AD: "1"
+       GROUP_SIZE: "1"
+       CONCURRENT_VERSIONS: "1"
+       DEBUG: null
        APP_NAME: "{{pipeline-wfd-entree-cf.parameters.name}}"
-       DEPLOYMENT_SUFFIX: "toolchain"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
+       RAMPDOWN_DURATION: "1s"
+       RAMPUP_DURATION: "1s"
       execute: false
     services: ["git-wfd-entree"]
   hidden: [form, description]
@@ -169,23 +181,29 @@ pipeline-wfd-entree-cf:
 pipeline-wfd-dessert-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-dessert-cf"
+    name: "wfd-dessert-cf-AD"
     ui-pipeline: true
     configuration:
       content: $file(wfd-cf-pipeline-template.yml)
       env:
        # Build java stage env variables
        REPO: "git-wfd-dessert"
-       # Build container stage env variables
+       BRANCH: "master"
+       # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/wfd-dessert-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
        ORG: "{{deploy.parameters.deploy-org}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
-       DOMAIN: "{{deploy.parameters.route-domain}}"
+       ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
+       TEST_RESULT_FOR_AD: "1"
+       GROUP_SIZE: "1"
+       CONCURRENT_VERSIONS: "1"
+       DEBUG: null
        APP_NAME: "{{pipeline-wfd-dessert-cf.parameters.name}}"
-       DEPLOYMENT_SUFFIX: "toolchain"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
+       RAMPDOWN_DURATION: "1s"
+       RAMPUP_DURATION: "1s"
       execute: false
     services: ["git-wfd-dessert"]
   hidden: [form, description]
@@ -193,23 +211,29 @@ pipeline-wfd-dessert-cf:
 pipeline-wfd-zuul-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-zuul-cf"
+    name: "wfd-zuul-cf-AD"
     ui-pipeline: true
     configuration:
       content: $file(wfd-cf-pipeline-template.yml)
       env:
        # Build java stage env variables
        REPO: "git-wfd-zuul"
-       # Build container stage env variables
+       BRANCH: "master"
+       # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/zuul-proxy-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
        ORG: "{{deploy.parameters.deploy-org}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
-       DOMAIN: "{{deploy.parameters.route-domain}}"
+       ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
+       TEST_RESULT_FOR_AD: "1"
+       GROUP_SIZE: "1"
+       CONCURRENT_VERSIONS: "1"
+       DEBUG: null
        APP_NAME: "{{pipeline-wfd-zuul-cf.parameters.name}}"
-       DEPLOYMENT_SUFFIX: "toolchain"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
+       RAMPDOWN_DURATION: "1s"
+       RAMPUP_DURATION: "1s"
       execute: false
     services: ["git-wfd-zuul"]
   hidden: [form, description]
@@ -217,23 +241,29 @@ pipeline-wfd-zuul-cf:
 pipeline-wfd-menu-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-menu-cf"
+    name: "wfd-menu-cf-AD"
     ui-pipeline: true
     configuration:
       content: $file(wfd-cf-pipeline-template.yml)
       env:
        # Build java stage env variables
        REPO: "git-wfd-menu"
-       # Build container stage env variables
+       BRANCH: "master"
+       # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/wfd-menu-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
        ORG: "{{deploy.parameters.deploy-org}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
-       DOMAIN: "{{deploy.parameters.route-domain}}"
+       ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
+       TEST_RESULT_FOR_AD: "1"
+       GROUP_SIZE: "1"
+       CONCURRENT_VERSIONS: "1"
+       DEBUG: null
        APP_NAME: "{{pipeline-wfd-menu-cf.parameters.name}}"
-       DEPLOYMENT_SUFFIX: "toolchain"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
+       RAMPDOWN_DURATION: "1s"
+       RAMPUP_DURATION: "1s"
       execute: false
     services: ["git-wfd-menu"]
   hidden: [form, description]
@@ -241,23 +271,29 @@ pipeline-wfd-menu-cf:
 pipeline-wfd-menu-ui-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-menu-ui-cf"
+    name: "wfd-menu-ui-cf-AD"
     ui-pipeline: true
     configuration:
       content: $file(wfd-cf-pipeline-template.yml)
       env:
        # Build java stage env variables
        REPO: "git-wfd-menu-ui"
-       # Build container stage env variables
+       BRANCH: "master"
+       # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/wfd-ui-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
        ORG: "{{deploy.parameters.deploy-org}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
-       DOMAIN: "{{deploy.parameters.route-domain}}"
+       ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
+       TEST_RESULT_FOR_AD: "1"
+       GROUP_SIZE: "1"
+       CONCURRENT_VERSIONS: "1"
+       DEBUG: null
        APP_NAME: "{{pipeline-wfd-menu-ui-cf.parameters.name}}"
-       DEPLOYMENT_SUFFIX: "toolchain"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
+       RAMPDOWN_DURATION: "1s"
+       RAMPUP_DURATION: "1s"
       execute: false
     services: ["git-wfd-menu-ui"]
   hidden: [form, description]
