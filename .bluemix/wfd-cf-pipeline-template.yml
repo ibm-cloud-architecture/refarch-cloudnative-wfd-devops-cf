@@ -70,6 +70,17 @@ stages:
       #!/bin/bash
       cf push ${CF_APP} -p ${BUILD_TARGET} -d ${DOMAIN} -n ${APP_ROUTE} --no-start
       cf set-env ${CF_APP} SPRING_PROFILES_ACTIVE cloud
-      cf bind-service ${CF_APP} ${SERVICE_DISCOVERY_UPS}
-      cf bind-service ${CF_APP} ${CONFIG_SERVER_UPS}
+
+      if [ -z "$(cf services | grep ${SERVICE_DISCOVERY_UPS} | grep ${CF_APP})" ]; then
+        echo "${CF_APP} is already bound to ${SERVICE_DISCOVERY_UPS}"
+      else
+        cf bind-service ${CF_APP} ${SERVICE_DISCOVERY_UPS}
+      fi
+
+      if [ -z "$(cf services | grep ${CONFIG_SERVER_UPS} | grep ${CF_APP})" ]; then
+        echo "${CF_APP} is already bound to ${CONFIG_SERVER_UPS}"
+      else
+        cf bind-service ${CF_APP} ${CONFIG_SERVER_UPS}
+      fi
+
       cf start ${CF_APP}

@@ -67,14 +67,18 @@ stages:
       space: ${SPACE}
       application: ${APP_NAME}
     script: |-
-       #!/bin/bash
-       cf push "${CF_APP}" -p ${BUILD_TARGET} -d ${DOMAIN} -n ${APP_ROUTE} --no-start
+      #!/bin/bash
+      cf push "${CF_APP}" -p ${BUILD_TARGET} -d ${DOMAIN} -n ${APP_ROUTE} --no-start
 
-       cf set-env ${CF_APP} SPRING_PROFILES_ACTIVE cloud
+      cf set-env ${CF_APP} SPRING_PROFILES_ACTIVE cloud
 
-       cf bind-service ${CF_APP} ${SERVICE_DISCOVERY_UPS}
+      if [ -z "$(cf services | grep ${SERVICE_DISCOVERY_UPS} | grep ${CF_APP})" ]; then
+        echo "${CF_APP} is already bound to ${SERVICE_DISCOVERY_UPS}"
+      else
+        cf bind-service ${CF_APP} ${SERVICE_DISCOVERY_UPS}
+      fi
 
-       cf start ${CF_APP}
+      cf start ${CF_APP}
   - name: Deploy CUPS
     type: deployer
     target:
