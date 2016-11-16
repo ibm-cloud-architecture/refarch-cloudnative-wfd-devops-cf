@@ -74,22 +74,28 @@ git-wfd-menu-ui:
 pipeline-wfd-eureka-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-eureka-cf"
+    name: "wfd-eureka-cf-ad"
     ui-pipeline: true
     configuration:
       content: $file(wfd_eureka_cf_pipeline.yml)
       env:
        # Build java stage env variables
        REPO: "git-wfd-eureka"
-       # Deploy stage env variable
+       BRANCH: "{{deploy.parameters.branch}}"
+       # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/eureka-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
        ORG: "{{deploy.parameters.deploy-org}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
-       DOMAIN: "{{deploy.parameters.route-domain}}"
+       ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
+       TEST_RESULT_FOR_AD: "1"
+       GROUP_SIZE: "1"
+       CONCURRENT_VERSIONS: "1"
+       DEBUG: null
        APP_NAME: "{{pipeline-wfd-eureka-cf.parameters.name}}"
-       DEPLOYMENT_SUFFIX: "toolchain"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
+       RAMPDOWN_DURATION: "1s"
+       RAMPUP_DURATION: "1s"
       execute: false
     services: ["git-wfd-eureka"]
   hidden: [form, description]
@@ -97,23 +103,29 @@ pipeline-wfd-eureka-cf:
 pipeline-wfd-config-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-config-cf"
+    name: "wfd-config-cf-ad"
     ui-pipeline: true
     configuration:
       content: $file(wfd_config_server_cf_pipeline.yml)
       env:
        # Build java stage env variables
        REPO: "git-wfd-config-server"
-       # Build container stage env variables
+       BRANCH: "{{deploy.parameters.branch}}"
+       # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/config-server-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
        ORG: "{{deploy.parameters.deploy-org}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
-       DOMAIN: "{{deploy.parameters.route-domain}}"
+       ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
+       TEST_RESULT_FOR_AD: "1"
+       GROUP_SIZE: "1"
+       CONCURRENT_VERSIONS: "1"
+       DEBUG: null
        APP_NAME: "{{pipeline-wfd-config-cf.parameters.name}}"
-       DEPLOYMENT_SUFFIX: "toolchain"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
+       RAMPDOWN_DURATION: "1s"
+       RAMPUP_DURATION: "1s"
       execute: false
     services: ["git-wfd-config-server"]
   hidden: [form, description]
@@ -121,14 +133,14 @@ pipeline-wfd-config-cf:
 pipeline-wfd-appetizer-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-appetizer-cf-AD"
+    name: "wfd-appetizer-cf-ad"
     ui-pipeline: true
     configuration:
       content: $file(wfd-cf-pipeline-template.yml)
       env:
        # Build java stage env variables
        REPO: "git-wfd-appetizer"
-       BRANCH: "master"
+       BRANCH: "{{deploy.parameters.branch}}"
        # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/wfd-appetizer-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
@@ -151,14 +163,14 @@ pipeline-wfd-appetizer-cf:
 pipeline-wfd-entree-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-entree-cf-AD"
+    name: "wfd-entree-cf-ad"
     ui-pipeline: true
     configuration:
       content: $file(wfd-cf-pipeline-template.yml)
       env:
        # Build java stage env variables
        REPO: "git-wfd-entree"
-       BRANCH: "master"
+       BRANCH: "{{deploy.parameters.branch}}"
        # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/wfd-entree-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
@@ -181,14 +193,14 @@ pipeline-wfd-entree-cf:
 pipeline-wfd-dessert-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-dessert-cf-AD"
+    name: "wfd-dessert-cf-ad"
     ui-pipeline: true
     configuration:
       content: $file(wfd-cf-pipeline-template.yml)
       env:
        # Build java stage env variables
        REPO: "git-wfd-dessert"
-       BRANCH: "master"
+       BRANCH: "{{deploy.parameters.branch}}"
        # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/wfd-dessert-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
@@ -211,14 +223,14 @@ pipeline-wfd-dessert-cf:
 pipeline-wfd-zuul-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-zuul-cf-AD"
+    name: "wfd-zuul-cf-ad"
     ui-pipeline: true
     configuration:
       content: $file(wfd-cf-pipeline-template.yml)
       env:
        # Build java stage env variables
        REPO: "git-wfd-zuul"
-       BRANCH: "master"
+       BRANCH: "{{deploy.parameters.branch}}"
        # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/zuul-proxy-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
@@ -241,14 +253,14 @@ pipeline-wfd-zuul-cf:
 pipeline-wfd-menu-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-menu-cf-AD"
+    name: "wfd-menu-cf-ad"
     ui-pipeline: true
     configuration:
       content: $file(wfd-cf-pipeline-template.yml)
       env:
        # Build java stage env variables
        REPO: "git-wfd-menu"
-       BRANCH: "master"
+       BRANCH: "{{deploy.parameters.branch}}"
        # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/wfd-menu-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
@@ -271,14 +283,14 @@ pipeline-wfd-menu-cf:
 pipeline-wfd-menu-ui-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-menu-ui-cf-AD"
+    name: "wfd-menu-ui-cf-ad"
     ui-pipeline: true
     configuration:
       content: $file(wfd-cf-pipeline-template.yml)
       env:
        # Build java stage env variables
        REPO: "git-wfd-menu-ui"
-       BRANCH: "master"
+       BRANCH: "{{deploy.parameters.branch}}"
        # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/wfd-ui-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
@@ -307,4 +319,5 @@ deploy:
     deploy-org: "{{organization}}"
     deploy-space: "{{space}}"
     route-domain: "mybluemix.net"
+    branch: "master"
     context-path: "micro"
