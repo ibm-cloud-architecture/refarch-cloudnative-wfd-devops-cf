@@ -94,7 +94,7 @@ pipeline-wfd-eureka-cf:
        GROUP_SIZE: "1"
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
-       APP_NAME: "{{pipeline-wfd-eureka-cf.parameters.name}}"
+       APP_NAME: "{{pipeline-wfd-eureka-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
        RAMPUP_DURATION: "1s"
@@ -123,7 +123,7 @@ pipeline-wfd-config-cf:
        GROUP_SIZE: "1"
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
-       APP_NAME: "{{pipeline-wfd-config-cf.parameters.name}}"
+       APP_NAME: "{{pipeline-wfd-config-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
@@ -153,7 +153,7 @@ pipeline-wfd-appetizer-cf:
        GROUP_SIZE: "1"
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
-       APP_NAME: "{{pipeline-wfd-appetizer-cf.parameters.name}}"
+       APP_NAME: "{{pipeline-wfd-appetizer-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
@@ -183,7 +183,7 @@ pipeline-wfd-entree-cf:
        GROUP_SIZE: "1"
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
-       APP_NAME: "{{pipeline-wfd-entree-cf.parameters.name}}"
+       APP_NAME: "{{pipeline-wfd-entree-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
@@ -213,7 +213,7 @@ pipeline-wfd-dessert-cf:
        GROUP_SIZE: "1"
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
-       APP_NAME: "{{pipeline-wfd-dessert-cf.parameters.name}}"
+       APP_NAME: "{{pipeline-wfd-dessert-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
@@ -243,7 +243,7 @@ pipeline-wfd-zuul-cf:
        GROUP_SIZE: "1"
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
-       APP_NAME: "{{pipeline-wfd-zuul-cf.parameters.name}}"
+       APP_NAME: "{{pipeline-wfd-zuul-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
@@ -273,7 +273,7 @@ pipeline-wfd-menu-cf:
        GROUP_SIZE: "1"
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
-       APP_NAME: "{{pipeline-wfd-menu-cf.parameters.name}}"
+       APP_NAME: "{{pipeline-wfd-menu-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
@@ -303,7 +303,7 @@ pipeline-wfd-menu-ui-cf:
        GROUP_SIZE: "1"
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
-       APP_NAME: "{{pipeline-wfd-menu-ui-cf.parameters.name}}"
+       APP_NAME: "{{pipeline-wfd-menu-ui-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
@@ -322,4 +322,5 @@ deploy:
     deploy-space: "{{space}}"
     route-domain: "mybluemix.net"
     branch: "master"
+    unique-identifier: "unique-identifier"
     context-path: "micro"
