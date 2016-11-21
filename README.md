@@ -4,14 +4,17 @@ This repository contains the DevOps Toolchain for managing and deploying the mic
 
 # How to use
 
-In order to create the Toolchain included in this project, start by clicking on the "Create Toolchain" button.
+To create the Toolchain included in this project, start by clicking on the "Create Toolchain" button.
 
 [![Create wfd Deployment Toolchain](https://new-console.ng.bluemix.net/devops/graphics/create_toolchain_button.png)](https://new-console.ng.bluemix.net/devops/setup/deploy/?repository=https%3A//github.com/ibm-cloud-architecture/refarch-cloudnative-wfd-devops-cf)
 
-1. Assign a value to the "unique-identifier". **HOW???**
-2. Deploy the Eureka server. To do this, execute the wfd-eureka-cf-ad Delivery Pipeline
-3. Deploy the Config server, by running the wfd-config-cf-ad Delivery Pipeline
-4. Deploy all other microservices, by executing their Delivery Pipelines
+1. The "What is for dinner Toolchain" creation view will open. 
+2. In this window, click on the "Delivery Pipeline" icon. This opens the Pipeline settings. In the settings, assign a value to the variable named Unique Identifier (which by default is "unique-identifier").
+3. Next click the Create button to complete the Toolchain creation.
+
+4. Deploy the Eureka server. To do this, execute the wfd-eureka-cf-ad Delivery Pipeline
+5. Deploy the Config server, by running the wfd-config-cf-ad Delivery Pipeline
+6. Deploy all other microservices, by executing their Delivery Pipelines
 
 # Details
 
