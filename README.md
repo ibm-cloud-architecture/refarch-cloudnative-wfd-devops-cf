@@ -11,7 +11,6 @@ To create the Toolchain included in this project, start by clicking on the "Crea
 1. The "What is for dinner Toolchain" creation view will open. 
 2. In this window, click on the "Delivery Pipeline" icon. This opens the Pipeline settings. In the settings, assign a value to the variable named Unique Identifier (which by default is "unique-identifier").
 3. Next click the Create button to complete the Toolchain creation.
-
 4. Deploy the Eureka server. To do this, execute the wfd-eureka-cf-ad Delivery Pipeline
 5. Deploy the Config server, by running the wfd-config-cf-ad Delivery Pipeline
 6. Deploy all other microservices, by executing their Delivery Pipelines
