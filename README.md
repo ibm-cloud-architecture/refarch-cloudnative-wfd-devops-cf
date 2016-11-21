@@ -1,6 +1,6 @@
 # refarch-cloudnative-wfd-devops-cf
 
-This repository contains the DevOps Toolchain for managing and deploying the microservices making up the What's For Dinner app to Bluemix as Cloud Foundry apps.
+This repository contains the DevOps toolchain for managing and deploying the microservices making up the What's For Dinner app to Bluemix as Cloud Foundry apps.
 
 # How to use
 
@@ -35,7 +35,7 @@ All microservices depend on Eureka for service registration and discovery. This 
 
 Dynamic configuration is implemented using the Config server. The Config server is accessed by microservices by binding them to the service that is associated with the Config server. This service is created on the first deployment of the Config server, and therefor is required to exist before any of the other microservices are deployed. 
 
-## Eureka & Active Deploy
+## Eureka & active deploy
 
 Active deploy switches from an old to a new version of an app by switching the route from an old version of an app to the new version of that app. Oftentimes this is fine, but in the case of Eureka there is a complication. Eureka keeps an in-memory database of all app that have registered with it. Any new version of the Eureka app will not immediately have the registrations the current version has, and until it does, its service cannot fully replace the service of the old version. This means that there will be some period of time in which Eureka's service will be degraded.
 
