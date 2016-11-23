@@ -1,6 +1,6 @@
 ---
 name: "What is for dinner Toolchain"
-description: "Microservices Cloud Foundry reference application Toolchain \n\
+description: "Microservices Cloud Foundry reference application Toolchain. \n\
 In this window, you will be asked to specify the following properties for your toolchain: \n\n\
 1. Specify a name for your toolchain that is unique among all toolchains on your Bluemix namespace DevOps section. \n\
 2. Click on the \"GitHub\" icon. This opens the GitHub settings. Please, give your desired name to each of the repos that will be cloned. \n\
