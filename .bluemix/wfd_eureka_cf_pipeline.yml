@@ -20,7 +20,7 @@ stages:
         /bin/bash build-microservice.sh
         ls -al $PWD
         echo "Gradle build complete."
-- name: Deploy CF App
+- name: Deploy
   inputs:
   - type: job
     stage: Build Java Projects
