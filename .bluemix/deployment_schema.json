@@ -27,7 +27,7 @@
         }
         ,
         "unique-identifier": {
-            "description": "Unique identifier to make your apps unique your space. Example: your surname",
+            "description": "Unique identifier for your apps. Example: your surname",
             "type": "string"
         }
     },

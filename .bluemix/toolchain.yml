@@ -1,6 +1,14 @@
 ---
 name: "What is for dinner Toolchain"
-description: "Microservices Cloud Foundry reference application Toolchain"
+description: "Microservices Cloud Foundry reference application Toolchain \n\
+In this window, you will be asked to specify the following properties for your toolchain: \n\n\
+1. Specify a name for your toolchain that is unique among all toolchains on your Bluemix namespace DevOps section. \n\
+2. Click on the \"GitHub\" icon. This opens the GitHub settings. Please, give your desired name to each of the repos that will be cloned. \n\
+3. Click on the \"Delivery Pipeline\" icon. This opens the delivery pipeline settings: \n\n\
+\t - Specify the Bluemix domain for your apps' routes (by default: mybluemix.net). \n\
+\t - Specify the build branch you would like your delivery pipelines to build the code from (by default: master). \n\
+\t - Specify a unique identifier which must make your apps' names __unique in Bluemix public__ (by default: toolchain's creation timestamp). \n\
+4. Click the Create button to complete the toolchain creation."
 version: 0.1
 toolchain:
   name: "whats_for_dinner_CF_toolchain"
@@ -322,5 +330,5 @@ deploy:
     deploy-space: "{{space}}"
     route-domain: "mybluemix.net"
     branch: "master"
-    unique-identifier: "unique-identifier"
+    unique-identifier: "{{timestamp}}"
     context-path: "micro"
