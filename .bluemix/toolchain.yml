@@ -95,7 +95,7 @@ pipeline-wfd-eureka-cf:
        # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/eureka-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
-       ORG: "{{deploy.parameters.deploy-org}}"
+       ORG: "{{deploy.parameters.deploy-organization}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
        ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
        TEST_RESULT_FOR_AD: "1"
@@ -124,7 +124,7 @@ pipeline-wfd-config-cf:
        # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/config-server-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
-       ORG: "{{deploy.parameters.deploy-org}}"
+       ORG: "{{deploy.parameters.deploy-organization}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
        ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
        TEST_RESULT_FOR_AD: "1"
@@ -154,7 +154,7 @@ pipeline-wfd-appetizer-cf:
        # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/wfd-appetizer-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
-       ORG: "{{deploy.parameters.deploy-org}}"
+       ORG: "{{deploy.parameters.deploy-organization}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
        ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
        TEST_RESULT_FOR_AD: "1"
@@ -184,7 +184,7 @@ pipeline-wfd-entree-cf:
        # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/wfd-entree-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
-       ORG: "{{deploy.parameters.deploy-org}}"
+       ORG: "{{deploy.parameters.deploy-organization}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
        ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
        TEST_RESULT_FOR_AD: "1"
@@ -214,7 +214,7 @@ pipeline-wfd-dessert-cf:
        # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/wfd-dessert-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
-       ORG: "{{deploy.parameters.deploy-org}}"
+       ORG: "{{deploy.parameters.deploy-organization}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
        ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
        TEST_RESULT_FOR_AD: "1"
@@ -244,7 +244,7 @@ pipeline-wfd-zuul-cf:
        # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/zuul-proxy-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
-       ORG: "{{deploy.parameters.deploy-org}}"
+       ORG: "{{deploy.parameters.deploy-organization}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
        ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
        TEST_RESULT_FOR_AD: "1"
@@ -274,7 +274,7 @@ pipeline-wfd-menu-cf:
        # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/wfd-menu-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
-       ORG: "{{deploy.parameters.deploy-org}}"
+       ORG: "{{deploy.parameters.deploy-organization}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
        ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
        TEST_RESULT_FOR_AD: "1"
@@ -304,7 +304,7 @@ pipeline-wfd-menu-ui-cf:
        # Build Deploy CF App stage env variables
        BUILD_TARGET: "build/libs/wfd-ui-0.0.1-SNAPSHOT.jar"
        REGION: "{{deploy.parameters.deploy-region}}"
-       ORG: "{{deploy.parameters.deploy-org}}"
+       ORG: "{{deploy.parameters.deploy-organization}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
        ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
        TEST_RESULT_FOR_AD: "1"
@@ -326,7 +326,7 @@ deploy:
   service-category: pipeline
   parameters:
     deploy-region: "{{region}}"
-    deploy-org: "{{organization}}"
+    deploy-organization: "{{organization}}"
     deploy-space: "{{space}}"
     route-domain: "mybluemix.net"
     branch: "master"
