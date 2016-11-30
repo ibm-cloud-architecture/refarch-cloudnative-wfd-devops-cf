@@ -62,7 +62,7 @@ stages:
     value: ${SPACE}
     type: text
   - name: ROUTE_HOSTNAME
-    value: ${APP_NAME}
+    value: ${ROUTE_HOSTNAME}
     type: text
   - name: NAME
     value: null
@@ -113,6 +113,28 @@ stages:
 
       cf push "${NAME}" -p ${BUILD_TARGET} -i 1 --no-route
 
+      # ----------------------------------------- #
+      # Export variables needed in following jobs #
+      # ----------------------------------------- #
+
+      export NAME
+      export CF_NAME
+  - name: Deploy CUPS
+    type: deployer
+    target:
+      region_id: ${REGION}
+      organization: ${ORG}
+      space: ${SPACE}
+      application: ${APP_NAME}
+    script: |-
+      #!/bin/bash
+
+      # -------------- #
+      # Set debug mode #
+      # -------------- #
+
+      if [[ -n ${DEBUG} ]]; then set -x ; fi
+
       # ----------- #
       # Create CUPS #
       # ----------- #
@@ -122,13 +144,6 @@ stages:
       else
         cf update-user-provided-service ${SERVICE_DISCOVERY_UPS} -p "{\"uri\": \"http://${ROUTE_HOSTNAME}.${ROUTE_DOMAIN}/eureka/\"}";
       fi
-
-      # ----------------------------------------- #
-      # Export variables needed in following jobs #
-      # ----------------------------------------- #
-
-      export NAME
-      export CF_NAME
   - name: Active Deploy - Begin
     type: deployer
     extension_id: ibm.devops.services.pipeline.devops.ad_start
