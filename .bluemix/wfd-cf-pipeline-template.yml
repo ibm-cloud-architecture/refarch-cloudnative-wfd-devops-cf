@@ -20,7 +20,7 @@ stages:
         /bin/bash build-microservice.sh
         ls -al $PWD
         echo "Gradle build complete."
-- name: Deploy
+- name: Deploy Microservice
   inputs:
   - type: job
     stage: Build Java Projects
@@ -175,7 +175,7 @@ stages:
       source ${EXT_DIR}/git_util.sh
       git_retry clone https://github.com/Osthanes/update_service.git activedeploy
       activedeploy/activedeploy_step_1.sh
-  - name: Test New Version
+  - name: Test
     type: tester
     fail_stage: false
     script: |-
