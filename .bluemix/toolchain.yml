@@ -10,6 +10,8 @@ In this window, you will be asked to specify the following properties for your t
 \t - Specify a unique identifier which must make your apps' names __unique in Bluemix public__ (by default: toolchain's creation timestamp). \n\
 4. Click the Create button to complete the toolchain creation."
 version: 0.1
+image: data:image/svg+xml;base64,$file(arch.svg,base64)
+icon: data:image/svg+xml;base64,$file(icon.svg,base64)
 toolchain:
   name: "whats_for_dinner_CF_toolchain"
 required:
@@ -329,6 +331,8 @@ deploy:
     deploy-organization: "{{organization}}"
     deploy-space: "{{space}}"
     route-domain: "mybluemix.net"
+    menu-endpoint: "mymenu"
+    menu-apis-endpoint: "menu-apis"
     branch: "master"
     unique-identifier: "{{timestamp}}"
     context-path: "micro"

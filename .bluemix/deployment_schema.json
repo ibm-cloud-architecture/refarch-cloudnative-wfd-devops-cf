@@ -17,8 +17,12 @@
             "description": "Deploy to this space",
             "type": "string"
         },
-        "route-domain": {
-            "description": "Domain name. Example: mybluemix.net for runtimes in US-South",
+        "menu-endpoint": {
+            "description": "Hostname for the app. Example: mymenu",
+            "type": "string"
+        },
+        "menu-apis-endpoint": {
+            "description": "Hostname for the APIs. Example: menu-apis",
             "type": "string"
         },
         "branch": {
@@ -31,7 +35,7 @@
             "type": "string"
         }
     },
-    "required": ["deploy-region", "deploy-organization", "deploy-space", "route-domain", "branch", "unique-identifier"],
+    "required": ["deploy-region", "deploy-organization", "deploy-space", "menu-endpoint", "menu-apis-endpoint", "branch", "unique-identifier", "route-domain"],
     "form": [
         {
             "type": "validator",
@@ -42,6 +46,18 @@
             "readonly": false,
             "title": "Domain name for all routes",
             "key": "route-domain"
+        },
+        {
+            "type": "text",
+            "readonly": false,
+            "title": "Hostname for your app",
+            "key": "menu-endpoint"
+        },
+        {
+            "type": "text",
+            "readonly": false,
+            "title": "Endpoint for your APIs",
+            "key": "menu-apis-endpoint"
         },
         {
             "type": "text",
