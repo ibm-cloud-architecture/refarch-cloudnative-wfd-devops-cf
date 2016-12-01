@@ -87,7 +87,7 @@ git-wfd-menu-ui:
 pipeline-wfd-eureka-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-eureka-cf-ad"
+    name: "1. Eureka CF"
     ui-pipeline: true
     configuration:
       content: $file(wfd_eureka_cf_pipeline.yml)
@@ -100,13 +100,14 @@ pipeline-wfd-eureka-cf:
        REGION: "{{deploy.parameters.deploy-region}}"
        ORG: "{{deploy.parameters.deploy-organization}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
+       PATTERN: "wfd-EUREKA-cf-ad"
        ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
-       ROUTE_HOSTNAME: "{{pipeline-wfd-eureka-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
+       ROUTE_HOSTNAME: "{{pipeline-wfd-eureka-cf.parameters.configuration.env.PATTERN}}-{{deploy.parameters.unique-identifier}}"
        TEST_RESULT_FOR_AD: "1"
        GROUP_SIZE: "1"
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
-       APP_NAME: "{{pipeline-wfd-eureka-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
+       NAME: "{{pipeline-wfd-eureka-cf.parameters.configuration.env.PATTERN}}-{{deploy.parameters.unique-identifier}}"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
        RAMPUP_DURATION: "1s"
@@ -117,7 +118,7 @@ pipeline-wfd-eureka-cf:
 pipeline-wfd-config-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-config-cf-ad"
+    name: "2. Config Server CF"
     ui-pipeline: true
     configuration:
       content: $file(wfd_config_server_cf_pipeline.yml)
@@ -130,13 +131,14 @@ pipeline-wfd-config-cf:
        REGION: "{{deploy.parameters.deploy-region}}"
        ORG: "{{deploy.parameters.deploy-organization}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
+       PATTERN: "wfd-CONFIG-cf-ad"
        ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
-       ROUTE_HOSTNAME: "{{pipeline-wfd-config-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
+       ROUTE_HOSTNAME: "{{pipeline-wfd-config-cf.parameters.configuration.env.PATTERN}}-{{deploy.parameters.unique-identifier}}"
        TEST_RESULT_FOR_AD: "1"
        GROUP_SIZE: "1"
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
-       APP_NAME: "{{pipeline-wfd-config-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
+       NAME: "{{pipeline-wfd-config-cf.parameters.configuration.env.PATTERN}}-{{deploy.parameters.unique-identifier}}"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
@@ -148,7 +150,7 @@ pipeline-wfd-config-cf:
 pipeline-wfd-appetizer-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-appetizer-cf-ad"
+    name: "3. Appetizer CF"
     ui-pipeline: true
     configuration:
       content: $file(wfd-cf-pipeline-template.yml)
@@ -161,13 +163,14 @@ pipeline-wfd-appetizer-cf:
        REGION: "{{deploy.parameters.deploy-region}}"
        ORG: "{{deploy.parameters.deploy-organization}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
+       PATTERN: "wfd-APPETIZER-cf-ad"
        ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
-       ROUTE_HOSTNAME: "{{pipeline-wfd-appetizer-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
+       ROUTE_HOSTNAME: "{{pipeline-wfd-appetizer-cf.parameters.configuration.env.PATTERN}}-{{deploy.parameters.unique-identifier}}"
        TEST_RESULT_FOR_AD: "1"
        GROUP_SIZE: "1"
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
-       APP_NAME: "{{pipeline-wfd-appetizer-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
+       NAME: "{{pipeline-wfd-appetizer-cf.parameters.configuration.env.PATTERN}}-{{deploy.parameters.unique-identifier}}"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
@@ -179,7 +182,7 @@ pipeline-wfd-appetizer-cf:
 pipeline-wfd-entree-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-entree-cf-ad"
+    name: "4. Entree CF"
     ui-pipeline: true
     configuration:
       content: $file(wfd-cf-pipeline-template.yml)
@@ -192,13 +195,14 @@ pipeline-wfd-entree-cf:
        REGION: "{{deploy.parameters.deploy-region}}"
        ORG: "{{deploy.parameters.deploy-organization}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
+       PATTERN: "wfd-ENTREE-cf-ad"
        ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
-       ROUTE_HOSTNAME: "{{pipeline-wfd-entree-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
+       ROUTE_HOSTNAME: "{{pipeline-wfd-entree-cf.parameters.configuration.env.PATTERN}}-{{deploy.parameters.unique-identifier}}"
        TEST_RESULT_FOR_AD: "1"
        GROUP_SIZE: "1"
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
-       APP_NAME: "{{pipeline-wfd-entree-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
+       NAME: "{{pipeline-wfd-entree-cf.parameters.configuration.env.PATTERN}}-{{deploy.parameters.unique-identifier}}"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
@@ -210,7 +214,7 @@ pipeline-wfd-entree-cf:
 pipeline-wfd-dessert-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-dessert-cf-ad"
+    name: "5. Dessert"
     ui-pipeline: true
     configuration:
       content: $file(wfd-cf-pipeline-template.yml)
@@ -223,13 +227,14 @@ pipeline-wfd-dessert-cf:
        REGION: "{{deploy.parameters.deploy-region}}"
        ORG: "{{deploy.parameters.deploy-organization}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
+       PATTERN: "wfd-DESSERT-cf-ad"
        ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
-       ROUTE_HOSTNAME: "{{pipeline-wfd-dessert-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
+       ROUTE_HOSTNAME: "{{pipeline-wfd-dessert-cf.parameters.configuration.env.PATTERN}}-{{deploy.parameters.unique-identifier}}"
        TEST_RESULT_FOR_AD: "1"
        GROUP_SIZE: "1"
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
-       APP_NAME: "{{pipeline-wfd-dessert-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
+       NAME: "{{pipeline-wfd-dessert-cf.parameters.configuration.env.PATTERN}}-{{deploy.parameters.unique-identifier}}"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
@@ -241,7 +246,7 @@ pipeline-wfd-dessert-cf:
 pipeline-wfd-zuul-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-zuul-cf-ad"
+    name: "8. Zuul Proxy CF"
     ui-pipeline: true
     configuration:
       content: $file(wfd-cf-pipeline-template.yml)
@@ -254,13 +259,14 @@ pipeline-wfd-zuul-cf:
        REGION: "{{deploy.parameters.deploy-region}}"
        ORG: "{{deploy.parameters.deploy-organization}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
+       PATTERN: "wfd-ZUUL-cf-ad"
        ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
        ROUTE_HOSTNAME: "{{deploy.parameters.menu-apis-endpoint}}"
        TEST_RESULT_FOR_AD: "1"
        GROUP_SIZE: "1"
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
-       APP_NAME: "{{pipeline-wfd-zuul-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
+       NAME: "{{pipeline-wfd-zuul-cf.parameters.configuration.env.PATTERN}}-{{deploy.parameters.unique-identifier}}"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
@@ -272,7 +278,7 @@ pipeline-wfd-zuul-cf:
 pipeline-wfd-menu-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-menu-cf-ad"
+    name: "6. Menu CF"
     ui-pipeline: true
     configuration:
       content: $file(wfd-cf-pipeline-template.yml)
@@ -285,13 +291,14 @@ pipeline-wfd-menu-cf:
        REGION: "{{deploy.parameters.deploy-region}}"
        ORG: "{{deploy.parameters.deploy-organization}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
+       PATTERN: "wfd-MENU-cf-ad"
        ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
-       ROUTE_HOSTNAME: "{{pipeline-wfd-menu-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
+       ROUTE_HOSTNAME: "{{pipeline-wfd-menu-cf.parameters.configuration.env.PATTERN}}-{{deploy.parameters.unique-identifier}}"
        TEST_RESULT_FOR_AD: "1"
        GROUP_SIZE: "1"
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
-       APP_NAME: "{{pipeline-wfd-menu-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
+       NAME: "{{pipeline-wfd-menu-cf.parameters.configuration.env.PATTERN}}-{{deploy.parameters.unique-identifier}}"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
@@ -303,7 +310,7 @@ pipeline-wfd-menu-cf:
 pipeline-wfd-menu-ui-cf:
   service_id: pipeline
   parameters:
-    name: "wfd-menu-ui-cf-ad"
+    name: "7. Menu UI CF"
     ui-pipeline: true
     configuration:
       content: $file(wfd-cf-pipeline-template.yml)
@@ -316,13 +323,14 @@ pipeline-wfd-menu-ui-cf:
        REGION: "{{deploy.parameters.deploy-region}}"
        ORG: "{{deploy.parameters.deploy-organization}}"
        SPACE: "{{deploy.parameters.deploy-space}}"
+       PATTERN: "wfd-MENU-UI-cf-ad"
        ROUTE_DOMAIN: "{{deploy.parameters.route-domain}}"
        ROUTE_HOSTNAME: "{{deploy.parameters.menu-endpoint}}"
        TEST_RESULT_FOR_AD: "1"
        GROUP_SIZE: "1"
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
-       APP_NAME: "{{pipeline-wfd-menu-ui-cf.parameters.name}}-{{deploy.parameters.unique-identifier}}"
+       NAME: "{{pipeline-wfd-menu-ui-cf.parameters.configuration.env.PATTERN}}-{{deploy.parameters.unique-identifier}}"
        CONFIG_SERVER_UPS: "config-server-cf"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
