@@ -139,7 +139,7 @@ pipeline-wfd-config-cf:
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
        NAME: "{{pipeline-wfd-config-cf.parameters.configuration.env.PATTERN}}-{{deploy.parameters.unique-identifier}}"
-       CONFIG_SERVER_UPS: "config-server-cf"
+       CONFIG_SERVER_UPS: "config-server"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
        RAMPUP_DURATION: "1s"
@@ -171,7 +171,7 @@ pipeline-wfd-appetizer-cf:
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
        NAME: "{{pipeline-wfd-appetizer-cf.parameters.configuration.env.PATTERN}}-{{deploy.parameters.unique-identifier}}"
-       CONFIG_SERVER_UPS: "config-server-cf"
+       CONFIG_SERVER_UPS: "config-server"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
        RAMPUP_DURATION: "1s"
@@ -203,7 +203,7 @@ pipeline-wfd-entree-cf:
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
        NAME: "{{pipeline-wfd-entree-cf.parameters.configuration.env.PATTERN}}-{{deploy.parameters.unique-identifier}}"
-       CONFIG_SERVER_UPS: "config-server-cf"
+       CONFIG_SERVER_UPS: "config-server"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
        RAMPUP_DURATION: "1s"
@@ -235,7 +235,7 @@ pipeline-wfd-dessert-cf:
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
        NAME: "{{pipeline-wfd-dessert-cf.parameters.configuration.env.PATTERN}}-{{deploy.parameters.unique-identifier}}"
-       CONFIG_SERVER_UPS: "config-server-cf"
+       CONFIG_SERVER_UPS: "config-server"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
        RAMPUP_DURATION: "1s"
@@ -267,7 +267,7 @@ pipeline-wfd-zuul-cf:
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
        NAME: "{{pipeline-wfd-zuul-cf.parameters.configuration.env.PATTERN}}-{{deploy.parameters.unique-identifier}}"
-       CONFIG_SERVER_UPS: "config-server-cf"
+       CONFIG_SERVER_UPS: "config-server"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
        RAMPUP_DURATION: "1s"
@@ -299,7 +299,7 @@ pipeline-wfd-menu-cf:
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
        NAME: "{{pipeline-wfd-menu-cf.parameters.configuration.env.PATTERN}}-{{deploy.parameters.unique-identifier}}"
-       CONFIG_SERVER_UPS: "config-server-cf"
+       CONFIG_SERVER_UPS: "config-server"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
        RAMPUP_DURATION: "1s"
@@ -331,7 +331,7 @@ pipeline-wfd-menu-ui-cf:
        CONCURRENT_VERSIONS: "1"
        DEBUG: null
        NAME: "{{pipeline-wfd-menu-ui-cf.parameters.configuration.env.PATTERN}}-{{deploy.parameters.unique-identifier}}"
-       CONFIG_SERVER_UPS: "config-server-cf"
+       CONFIG_SERVER_UPS: "config-server"
        SERVICE_DISCOVERY_UPS: "eureka-service-discovery"
        RAMPDOWN_DURATION: "1s"
        RAMPUP_DURATION: "1s"
