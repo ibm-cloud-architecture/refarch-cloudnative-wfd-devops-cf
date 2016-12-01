@@ -214,7 +214,7 @@ pipeline-wfd-entree-cf:
 pipeline-wfd-dessert-cf:
   service_id: pipeline
   parameters:
-    name: "5. Dessert"
+    name: "5. Dessert CF"
     ui-pipeline: true
     configuration:
       content: $file(wfd-cf-pipeline-template.yml)
