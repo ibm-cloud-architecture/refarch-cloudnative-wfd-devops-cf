@@ -160,9 +160,9 @@ stages:
       # ----------- #
 
       if [ -z "$(cf services | grep ${CONFIG_SERVER_UPS})" ]; then
-        cf create-user-provided-service ${CONFIG_SERVER_UPS} -p "{\"uri\": \"http://${ROUTE_HOSTNAME}.${ROUTE_DOMAIN}/eureka/\"}"
+        cf create-user-provided-service ${CONFIG_SERVER_UPS} -p "{\"uri\": \"http://${ROUTE_HOSTNAME}.${ROUTE_DOMAIN}/\"}"
       else
-        cf update-user-provided-service ${CONFIG_SERVER_UPS} -p "{\"uri\": \"http://${ROUTE_HOSTNAME}.${ROUTE_DOMAIN}/eureka/\"}";
+        cf update-user-provided-service ${CONFIG_SERVER_UPS} -p "{\"uri\": \"http://${ROUTE_HOSTNAME}.${ROUTE_DOMAIN}/\"}";
       fi
   - name: Active Deploy - Begin
     type: deployer
