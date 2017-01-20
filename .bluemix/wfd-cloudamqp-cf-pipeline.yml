@@ -1,0 +1,119 @@
+---
+stages:
+- name: Create CloudAMQP Service
+  properties:
+  - name: REGION
+    value: ${REGION}
+    type: text
+  - name: ORG
+    value: ${ORG}
+    type: text
+  - name: SPACE
+    value: ${SPACE}
+    type: text
+  - name: DEBUG
+    value: ${DEBUG}
+    type: text
+  - name: UNIQUE_IDENTIFIER
+    value: ${UNIQUE_IDENTIFIER}
+    type: text
+  - name: NAME
+    value: ${NAME}
+    type: text
+  - name: SERVICE_NAME
+    value: ${SERVICE_NAME}
+    type: text
+  - name: PLAN
+    value: ${PLAN}
+    type: text
+  - name: MICROSERVICES
+    value: ${MICROSERVICES}
+    type: text
+  jobs:
+  - name: Create Service
+    type: deployer
+    target:
+      region_id: ${REGION}
+      organization: ${ORG}
+      space: ${SPACE}
+      application: ${SERVICE_NAME}
+    script: |-
+      #!/bin/bash
+
+      # ------ #
+      # Colors #
+      # ------ #
+      export green='\e[0;32m'
+      export red='\e[0;31m'
+      export label_color='\e[0;33m'
+      export no_color='\e[0m' # No Color
+
+      # -------------- #
+      # Set debug mode #
+      # -------------- #
+
+      if [[ -n ${DEBUG} ]]; then set -x ; fi
+
+      echo -e "${label_color}# --------------------------------- #${no_color}"
+      echo -e "${label_color}# [BEGIN]: Create CloudAMQP Service #${no_color}"
+      echo -e "${label_color}# --------------------------------- #${no_color}"
+
+      if [ -n "`cf services | grep ${SERVICE_NAME}`" ]; then
+        # Before creating a new CloudAMQP Service, we need to delete the old one and to do so we have to
+        # unbind any app bound to the old service.
+        MICROSERVICES=`cf services | grep ${SERVICE_NAME} | sed 's/^.*   \(wfd.*$\)/\1/g' | sed 's/, / /g'`
+
+        if [ -n "$MICROSERVICES" ]; then
+          for MICROSERVICE in `echo ${MICROSERVICES}`
+          do
+            cf unbind-service ${MICROSERVICE} ${SERVICE_NAME}
+          done
+        else
+          cf delete-service ${SERVICE_NAME} -f
+        fi
+      else
+        # Create new CloudAMQP Service
+        cf create-service ${NAME} ${PLAN} ${SERVICE_NAME}
+      fi
+
+      export MICROSERVICES
+  - name: Update Microservices
+    type: deployer
+    target:
+      region_id: ${REGION}
+      organization: ${ORG}
+      space: ${SPACE}
+      application: ${SERVICE_NAME}
+    script: |-
+      #!/bin/bash
+
+      # -------------- #
+      # Set debug mode #
+      # -------------- #
+
+      if [[ -n ${DEBUG} ]]; then set -x ; fi
+
+      echo -e "${label_color}# ------------------------------- #${no_color}"
+      echo -e "${label_color}# [BEGIN]: Updating microservices #${no_color}"
+      echo -e "${label_color}# ------------------------------- #${no_color}"
+
+
+      # For each microservice, we need to update their VCAP_SERVICES so that they point to the new CloudAMQP instance
+      # MICROSERVICES=`cf apps | grep ${UNIQUE_IDENTIFIER} | sed 's/    .*$//g' | grep -e HYSTRIX -e MENU`
+
+      if [ -n "$MICROSERVICES" ]; then
+        for MICROSERVICE in `echo ${MICROSERVICES}`
+        do
+          echo "[INFO]: Updating CloudAMQP credentials for microservice: $MICROSERVICE"
+
+          # Binding new CloudAMQP Service and restaging CF app to take new changes in.
+          cf bind-service ${MICROSERVICE} ${SERVICE_NAME}
+          cf restage ${MICROSERVICE}
+        done
+      else
+        echo -e "${green}[INFO]: There is no microservice to be updated ${no_color}"
+      fi
+
+      echo -e "${label_color}# ----------------------------- #${no_color}"
+      echo -e "${label_color}# [END]: Updating microservices #${no_color}"
+      echo -e "${label_color}# ----------------------------- #${no_color}"

@@ -76,6 +76,9 @@ stages:
   - name: RAMPUP_DURATION
     value: ${RAMPUP_DURATION}
     type: text
+  - name: CLOUDAMQP_SERVICE
+    value: ${CLOUDAMQP_SERVICE}
+    type: text
   jobs:
   - name: Deploy cf app
     type: deployer
@@ -118,6 +121,9 @@ stages:
       cf set-env ${NAME} SPRING_PROFILES_ACTIVE cloud
       cf bind-service ${NAME} ${SERVICE_DISCOVERY_UPS}
       cf bind-service ${NAME} ${CONFIG_SERVER_UPS}
+      if [ -n "${CLOUDAMQP_SERVICE}" ]; then
+        cf bind-service ${NAME} ${CLOUDAMQP_SERVICE}
+      fi
 
       # ------------------------------------------------------------------------ #
       # Create the route and map it before starting. Otherwise, the microservice #

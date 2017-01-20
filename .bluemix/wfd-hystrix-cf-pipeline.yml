@@ -1,6 +1,6 @@
 ---
 stages:
-- name: Build Java Projects
+- name: Build WAR Project
   inputs:
   - type: git
     branch: ${BRANCH}
@@ -8,34 +8,23 @@ stages:
   triggers:
   - type: commit
   jobs:
-  - name: Build Java
+  - name: Build WAR file
     type: builder
-    artifact_dir: ''
-    build_type: shell
+    artifact_dir: target
+    build_type: maven
     script: |
         #!/bin/bash
-        echo "Run gradle build..."
-        export JAVA_HOME=~/java8
-        export PATH=$JAVA_HOME/bin:$PATH
-        /bin/bash build-microservice.sh
-        ls -al $PWD
-        echo "Gradle build complete."
+        mvn -B package
 - name: Deploy Microservice
   inputs:
   - type: job
-    stage: Build Java Projects
-    job: Build Java
+    stage: Build WAR Project
+    job: Build WAR file
   triggers:
   - type: stage
   properties:
   - name: BUILD_TARGET
     value: ${BUILD_TARGET}
-    type: text
-  - name: SERVICE_DISCOVERY_UPS
-    value: ${SERVICE_DISCOVERY_UPS}
-    type: text
-  - name: CONFIG_SERVER_UPS
-    value: ${CONFIG_SERVER_UPS}
     type: text
   - name: TEST_RESULT_FOR_AD
     value: ${TEST_RESULT_FOR_AD}
@@ -76,6 +65,9 @@ stages:
   - name: RAMPUP_DURATION
     value: ${RAMPUP_DURATION}
     type: text
+  - name: CLOUDAMQP_SERVICE
+    value: ${CLOUDAMQP_SERVICE}
+    type: text
   jobs:
   - name: Deploy cf app
     type: deployer
@@ -84,7 +76,7 @@ stages:
       organization: ${ORG}
       space: ${SPACE}
       application: ${NAME}
-    script: |-
+    script: |
       #!/bin/bash
 
       # -------------- #
@@ -114,9 +106,8 @@ stages:
       # Do not start the app. Bind services first #
       # ----------------------------------------- #
 
-      cf push "${NAME}" -p ${BUILD_TARGET} -i 1 --no-route --no-start
-      cf set-env ${NAME} SPRING_PROFILES_ACTIVE cloud
-      cf bind-service ${NAME} ${SERVICE_DISCOVERY_UPS}
+      cf push "${NAME}" -p ${BUILD_TARGET} -i 1 --no-start --no-route
+      cf bind-service ${NAME} ${CLOUDAMQP_SERVICE}
 
       # ------------------------------------------------------------------------ #
       # Create the route and map it before starting. Otherwise, the microservice #
@@ -139,31 +130,6 @@ stages:
 
       export NAME
       export CF_NAME
-  - name: Deploy CUPS
-    type: deployer
-    target:
-      region_id: ${REGION}
-      organization: ${ORG}
-      space: ${SPACE}
-      application: ${NAME}
-    script: |-
-      #!/bin/bash
-
-      # -------------- #
-      # Set debug mode #
-      # -------------- #
-
-      if [[ -n ${DEBUG} ]]; then set -x ; fi
-
-      # ----------- #
-      # Create CUPS #
-      # ----------- #
-
-      if [ -z "$(cf services | grep ${CONFIG_SERVER_UPS})" ]; then
-        cf create-user-provided-service ${CONFIG_SERVER_UPS} -p "{\"uri\": \"http://${ROUTE_HOSTNAME}.${ROUTE_DOMAIN}/\"}"
-      else
-        cf update-user-provided-service ${CONFIG_SERVER_UPS} -p "{\"uri\": \"http://${ROUTE_HOSTNAME}.${ROUTE_DOMAIN}/\"}";
-      fi
   - name: Active Deploy - Begin
     type: deployer
     extension_id: ibm.devops.services.pipeline.devops.ad_start
