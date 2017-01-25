@@ -16,46 +16,22 @@ In order to create a toolchain for the What's For Dinner Microservices Reference
  2. Click on the __GitHub__ icon. This opens the GitHub settings. Please, give your desired name to each of the repos that will be cloned.
  3. Click on the __Delivery Pipeline__ icon. This opens the delivery pipeline settings:
    * Specify the __Bluemix domain__ where your app will be hosted *(by default: mybluemix.net)*.
-    * Specify the __build branch__ you would like your delivery pipelines to build the code from *(by default: master)*.
+    * Specify the __build branch__ you would like your delivery pipelines to build the code from *(by default: RESILIENCY)*.
      * Specify your __app and APIs endpoints__ which must be __unique__ within Bluemix public *(by default: "mymenu" and "menu-apis" respectively)*.
       * Specify a __unique identifier__ which will be used to make the What's For Dinner microservices and their routing __unique within Bluemix public__ *(by default: toolchain's creation timestamp)*.
 3. Click the Create button to complete the toolchain creation.
-4. After creating the toolchain, make sure to deploy the What's For Dinner microservices in the following order:
- 1. The Eureka server, by running the Eureka CF delivery pipeline.
- 2. The Config server, by running the Config Server CF delivery pipeline.
- 3. All other microservices, by executing their delivery pipelines.
+4. After creating the toolchain, make sure to deploy the What's For Dinner microservices in the same order as the delivery pipelines are numerated.
 
 ### Details
 
-This toolchain contains a github clone tool, and a delivery pipeline for each of the microservices.
-The github clone tool creates a cloned repository for the microservice.
-Each delivery pipeline consists of two stages:
+This RESILIENCY branch of the What's For Dinner DevOps GitHub repository not only implements the same toolchain as the master branch but also includes the new resiliency artifacts for the What's For Dinner app in its implementation.
 
-1. __Build Java Projects__. This stage has only one job which runs a gradle build of the microservice.
-2. __Deploy Microservice__. This stage has 4 jobs: - The input for this stage will be the output of the previous one. That is, it will take the build output. This stage is made up of 4 jobs:
- 1. **Deploy CF App**. This job deploys the recently built new version of the Java microservice.
- 2. **Active Deploy - Begin**. This job creates a new Active Deploy job to upgrade the microservice to a newer version. Traffic is routed to the new version of the microservice during the rampup phase and advances the Active Deploy job to the Test phase.
- 3. **Test**. This job is empty by default. It can be edited to perform any required tests.
- 4. **Active Deploy - Complete**. This job advances the Active Deploy job to its rampdown phase, where the old microservice version will be removed and the Active Deploy job will be marked completed if the previous test phase succeeded. Otherwise, the upgrade will be rolled back and the Active Deploy job marked as failed.
+These new elements are the Netflix OSS component Hystrix (metrics and circuit breaker) as well as the appropriate CloudAMQP service (Managed HA RabbitMQ Server) for integration. For further detail on these new components as well as on this new architecture that includes the resiliency pieces for the What's For Dinner app, please read the resiliency branch main app's [readme](https://github.com/ibm-cloud-architecture/refarch-cloudnative-netflix/tree/RESILIENCY).
 
-![Common pipeline](static/imgs/common.png?raw=true)
+Microservices implementing the Hystrix's Circuit Breaker pattern need the RabbitMQ Server credentials beforehand, so that they can establish connection to the server during their startup. Therefore, the CloudAMQP delivery pipeline must be executed before the Menu and Menu UI microservices are deployed (pipelines are numbered so that they are executed in the right order).
 
-## Considerations
-### Order of deployment
-All microservices depend on Eureka for service registration and discovery. This is established by creating a User Provided Service (UPS) associated to the Eureka server that will hold Eureka parameters needed by the rest of the microservices such as its url. This service is created the very first time the Eureka server is deployed and it must exist before other microservices are deployed. When the rest of the microservices are deployed, they will bind to the Eureka UPS so that they can access Eureka parameters through their VCAP Services. Likewise, dynamic configuration is implemented using the Config server whose location need to known by the rest of the microservices during their deployment. This is done, again, by creating another UPS which is associated to the Config Server.
+The CloudAMQP delivery pipeline will create a new CloudAMQP service. If there is an existing CloudAMQP service already, the CloudAMQP delivery pipeline will unbind it from any microservice and then delete it before creating the new one. Finally, it will bind the new CloudAMQP service to the previous bound microservices and re-stage them, so that these microservices use the new CloudAMQP service.
 
-Because of the need of the User Provided Services, the Eureka and Config Server __Deploy Microservice__ delivery pipeline stage contain an extra jobs and look like the following:
+The Netflix OSS component Hystrix gets deployed after the Menu and Menu UI microservices and it is bound to the previously created CloudAMQP service in order to read Menu's and Menu UI's messages.
 
-<img src="static/imgs/eureka.png?raw=true" hspace="250">
-
-### Eureka & active deploy
-
-Active deploy switches from an old to a new version of a microservice by switching the route from an old version of a microservice to the new version of that microservice. Oftentimes this is fine, but in the case of Eureka there is a complication. Eureka keeps an in-memory database of all microservices that have registered with it. Any new version of the Eureka microservice will not immediately have the registrations the current version has, and until it does, its service cannot fully replace the service of the old version. This means that there will be some period of time in which Eureka's service will be degraded.
-
-After the deployment of the new version of the Eureka Server, it will get mapped to itself the same route as the old Eureka Server version, which means that both versions will now receive traffic from the Go Router. As soon as the new version gets the route mapped to it, the Active Deploy job will begin its rampup phase where traffic will be evenly directed to both the old and the new version. Since having traffic evenly directed to both Eureka Server versions degrades its service, we make the rampup phase as short as possible (1 second) so that all traffic is directed to the new version as soon as possible.
-
-The Eureka client on the microservice side keeps a heartbeat with the Eureka server in order to maintain an up-to-date list of registered and alive microservices. This heartbeat is sent every X seconds, being X adjustable. As a result, it will take some time (and will depend on each microservice) for the new version of the Eureka Server to get the heartbeat from all the microservices making up the What's For Dinner app. Until the Eureka Server does not received the heartbeat from each microservice, the What's For Dinner application will be unavailable (we have observed it to take anywhere from 50-80 seconds until the new Eureka contains the registrations of all microservices, and Eureka's service is fully restored).
-
-### Multiple What's For Dinner apps
-
-There is a limitation on the number of What's For Dinner apps you can deploy onto the same space to one. The reason for this is that the UPS created will be called likewise so then the delivery pipelines from the different What's For Dinner apps will overwrite each other's values. Hence there is a limitation of one What's For Dinner app per Bluemix Space.
+IMPORTANT: The Netflix OSS component Hystrix used for the What's For Dinner app has been modified in order to use web sockets rather than long HTTP polling.
