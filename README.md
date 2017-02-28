@@ -4,6 +4,10 @@
 
 This repository contains the DevOps toolchain for managing and deploying the Java microservices making up the What's For Dinner app to Bluemix as Cloud Foundry apps.
 
+_This application has been developed and designed to run in the **IBM Bluemix us-south public region**. Changes may be required if it is to run on a different IBM Bluemix public region or on a local/dedicated environment._
+
+![Application Architecture](https://rawgit.com/ibm-cloud-architecture/refarch-cloudnative-wfd-devops-cf/master/.bluemix/arch.svg)
+
 ### How to use
 
 In order to create a toolchain for the What's For Dinner Microservices Reference Application, please click below on the __Create toolchain__ button and follow the instructions.
